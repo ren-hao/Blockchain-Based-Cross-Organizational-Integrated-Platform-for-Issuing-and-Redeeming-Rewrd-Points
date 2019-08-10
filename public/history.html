@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="theme.css">
+  <title>Points</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container"> <a class="navbar-brand" href="#">
+        <i class="fa d-inline fa-lg fa-circle-o"></i>
+        <b> Points</b>
+      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar11">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"> <a class="nav-link" href="./history.html"> </a> </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="#">Hi, </a> </li>
+        </ul> <a class="btn btn-primary navbar-btn ml-md-2 text-white" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1 class="display-2 mt-4" contenteditable="true">History</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <p>hello</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="text-center col-md-12 pt-2">
+          <h2 class="text-center text-white mb-3 mt-1">Contact</h2>
+          <p class="text-white"> <a href="#" class="text-light">
+              <i class="fa d-inline mr-3 text-muted fa-phone"></i>0</a>9-33631283</p>
+          <p class="text-white"> <a href="#" class="text-white">
+              <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>y</a>uka071099@gmail.com</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center">© Copyright 2018 Pingendo - All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+  <script>
+    var eth = new Eth(new Eth.HttpProvider('http://140.113.207.54:7545'));
+    //console.log(eth.filter);
+    //console.log(Object.getOwnPropertyNames(eth.filter));
+    const filter = new eth.filter.Filter({ delay: 300 })
+    .new({ toBlock: 500 })
+    .then((result) => {
+      // result <BigNumber ...> filterId
+      console.log(result);
+    })
+    .catch((error) => {
+      // result null
+      console.log(error);
+    });
+    filter.watch((result) => {
+      // result [{...}, ...] (fires multiple times)
+      console.log(result);
+    });
+    filter.uninstall(cb);
+
+    /*
+    const filter = new filters.BlockFilter()
+    .at(7)
+    filter.watch((result) => {
+      // result [{...}, ...] (fires multiple times)
+    });
+    filter.uninstall(cb);
+    */
+    /*
+    const filter = new filters.PendingTransactionFilter()
+    .new()
+    .then((result) => {
+      // result <BigNumber ...> filterId
+    })
+    .catch((error) => {
+      // result null
+    });
+
+    const watcher = filter.watch((error, result) => {
+      // result null ['0xfd234829...', '0xsf2030d1...']
+    });
+    watcher.stopWatching(cb);
+
+    filter.uninstall()
+    .then((result) => {
+      // result true
+    })
+    .catch((error) => {
+      // result null
+    });
+    */
+    $("#logout").click(function(e){
+      console.log(document.cookie);
+      document.cookie = "identity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "address=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie = "account=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      location.href = "/index.html";
+    });
+  </script>
+</body>
+
+</html>

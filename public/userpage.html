@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="theme.css">
+  <title>Points</title>
+  <meta name="description" content="user page for Points">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container"> <a class="navbar-brand" href="#">
+        <i class="fa d-inline fa-lg fa-circle-o"></i>
+        <b> Points</b>
+      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar11">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"> <a class="nav-link" href="./history.html"></a> </li> <!--History-->
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="#" id="greet">Hi, </a> </li>
+        </ul> <a class="btn btn-primary navbar-btn ml-md-2 text-white" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <div class="text-center pt-5 pb-4 mt-4" style="background-color: rgba(0, 129, 243, 0.8)">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8" style="color:rgba(224,0,77,0.7)">
+          <h2><b>You have </b><span class="display-1 text-center" id="pointNum"><b><strong></strong></b></span><b> Points now!</b></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="text-center mx-auto col-md-12">
+          <h1>Let's redeem!</h1>
+        </div>
+      </div>
+      <!--
+      <div class="row">
+        <div class="col-lg-2 col-md-4 col-sm-1 my-1">
+          <select class="form-control" id="price" name="price">
+            <option value="1">0~100</option>
+            <option value="2">100~500</option>
+            <option value="3">500~1000</option>
+          </select>
+        </div>
+        <div class="col-lg-2 col-md-4 col-sm-1 my-1">
+          <select class="form-control" id="company" name="company">
+          </select>
+        </div>
+      </div>-->
+      <div class="row" id="goodsRow">
+        <div id="goodsTemplate" style="display: none;">
+          <div class="col-sm-6 col-md-12 col-lg-3 my-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <img alt="140x140" class="img-center" id="goodsImg" src="asset/suitcase.jpeg" data-holder-rendered="true" data-src="holder.js/140x140" style="width: 100%;">
+                <br><br>
+              </div>
+              <div class="panel-body text-center">
+                <p class="lead"><span id="goodsName" class="name">It is a suitcase</span></p>
+                <!--<p><span class="companyName" id="goodsOwner">Company</span></p>-->
+                <p><span class="price" id="goodsPrice">3</span> points</p>
+                <button class="btn btn-primary btn-redeem" type="button" data-id="0" id="redeem">Redeem</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="text-center col-md-12 pt-2">
+          <h2 class="text-center text-white mb-3 mt-1">Contact</h2>
+          <p class="text-white"> <a href="#" class="text-light">
+              <i class="fa d-inline mr-3 text-muted fa-phone"></i>0</a>9-33631283</p>
+          <p class="text-white"> <a href="#" class="text-white">
+              <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>y</a>uka071099@gmail.com</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center">© Copyright 2018 Pingendo - All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="js/user.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+</body>
+
+</html>

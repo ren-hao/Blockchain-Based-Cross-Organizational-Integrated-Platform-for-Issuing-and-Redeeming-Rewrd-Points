@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="theme.css">
+  <title>Points</title>
+  <meta name="description" content="point provider page for Points">
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container"> <a class="navbar-brand" href="#">
+        <i class="fa d-inline fa-lg fa-circle-o"></i>
+        <b> Points</b>
+      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar11">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"> <a class="nav-link" href="./history.html"></a> </li> <!--History-->
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="#"><span id="greet">Hi, </span></a> </li> 
+        </ul> <a class="btn btn-primary navbar-btn ml-md-2 text-white" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5 text-center text-white h-100 align-items-center d-flex" style="	background-image: linear-gradient(to bottom, rgba(0, 129, 243, 0.8), rgba(0, 0, 0, .5));	background-position: center center;	background-size: cover;	background-repeat: repeat;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="mx-auto col-lg-8 col-md-10">
+          <h2 class="mt-5"><b>You have </b><span class="display-1 text-center" id="pointNum"><b></b></span><b> Points now!</b></h2>
+          <button class="btn btn-lg btn-secondary m-2" id="gain" data-target="#gainModal" data-toggle="modal">Gain points</button>
+          <button class="btn btn-lg btn-secondary m-2" id="issue" data-target="#issueModal" data-toggle="modal">issue points</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="text-center col-md-12 pt-2">
+          <h2 class="text-center text-white mb-3 mt-1">Contact</h2>
+          <p class="text-white"> <a href="#" class="text-light">
+              <i class="fa d-inline mr-3 text-muted fa-phone"></i>0</a>9-33631283</p>
+          <p class="text-white"> <a href="#" class="text-white">
+              <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>y</a>uka071099@gmail.com</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center">© Copyright 2018 Pingendo - All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Gain point modal -->
+  <div class="modal fade" id="gainModal" tabindex="-1" role="dialog" aria-labelledby="gainModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="gainModalLabel">Gain points</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <label for="gainAmount">How much Points do you want to gain?</label>
+          <input type="text" id="gainAmount">
+        </div>
+        <div class="modal-footer">
+          <!--<button type="button" class="btn btn-primary" data-dismiss="modal" id="gain_confirm">Confirm</button>-->
+          <button type="button" class="btn btn-primary" id="gain_confirm">Confirm</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Issue point modal -->
+  <div class="modal fade" id="issueModal" tabindex="-1" role="dialog" aria-labelledby="issueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="issueModalLabel">Issue points</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>To whom?</p>
+          <input type="text" id="receiver">
+          <p>How much?</p>
+          <input type="text" id="issueAmount">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="issue_confirm">Confirm</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="js/pointProvider.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS dependencies -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="theme.css">
+  <!-- PAGE settings -->
+  <title>Points</title>
+  <meta name="description" content="goods provider page for Points">
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container"> <a class="navbar-brand" href="#">
+        <i class="fa d-inline fa-lg fa-circle-o"></i>
+        <b> Points</b>
+      </a> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar11">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar11">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"> <a class="nav-link" href="./history.html"></a> </li> <!--History-->
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="#" id="greet">Hi, </a> </li>
+        </ul> <a class="btn btn-primary navbar-btn ml-md-2 text-white" id="logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+  <div class="text-center mt-4 pt-5 pb-5" style="background-color: rgba(0, 129, 243, 0.8)">
+    <div class="container">
+      <div class="row">
+        <div class="mx-auto col-md-8" style="color:rgba(224,0,77,0.7)">
+          <h2><b>You have </b><span class="display-1 text-center" id="pointNum"><b><strong></strong></b></span><b> Points now!</b></h2>
+          <button class="btn btn-lg btn-secondary m-2" id="sell" data-target="#sellModal" data-toggle="modal">Sell points</button>
+          <button class="btn btn-lg btn-secondary m-2" id="increase" data-target="#increaseModal" data-toggle="modal">Increase goods</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row" id="goodsRow">
+        <!--style="display: none;" onclick="show()"--> 
+        <div id="goodsTemplate" style="display: none;">
+          <div class="col-sm-6 col-md-12 col-lg-3 my-2">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <img alt="140x140" class="img-center" id="goodsImg" src="asset/suitcase.jpeg" data-holder-rendered="true" data-src="holder.js/140x140" style="width: 100%;">
+                <br><br>
+              </div>
+              <div class="panel-body text-center">
+                <p class="lead"><span id="goodsName" class="name">It is a suitcase</span></p>
+                <p><span id="goodsPrice" class="price">3</span> points</p>
+                <!--<button class="btn btn-outline-dark btn-update" id="update" data-target="#updateModal" data-toggle="modal">update</button>-->
+                <button class="btn btn-outline-dark btn-delete" type="button" data-id="0" id="delete" >delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-dark">
+    <div class="container">
+      <div class="row">
+        <div class="text-center col-md-12 pt-2">
+          <h2 class="text-center text-white mb-3 mt-1">Contact</h2>
+          <p class="text-white"> <a href="#" class="text-light">
+              <i class="fa d-inline mr-3 text-muted fa-phone"></i>0</a>9-33631283</p>
+          <p class="text-white"> <a href="#" class="text-white">
+              <i class="fa d-inline mr-3 text-muted fa-envelope-o"></i>y</a>uka071099@gmail.com</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center">© Copyright 2018 Pingendo - All rights reserved. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sell point modal -->
+  <div class="modal fade" aria-hidden="true" aria-labelledby="sellModalLabel" id="sellModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sellModalLabel">Sell points</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>To whom?(If you want to sell points to us, please type "system")</p>
+          <input type="text" id="receiver" placeholder="Account">
+          <p>How much?</p>
+          <input type="text" id="sellAmount">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="sellConfirm">Confirm</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Increase goods modal -->
+  <div class="modal fade" id="increaseModal" tabindex="-1" role="dialog" aria-labelledby="increaseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="increaseModalLabel">Increase goods</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="goods_form" method="POST" enctype="multipart/form-data" onsubmit="return false;">
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="inputfile" class="col-2 col-form-label">photo</label>
+              <div class="col-10">
+                <input type="file" class="form-control-file" id="inputfile" name="inputfile" accept="image/*"> </div>
+              <img id='output'>
+            </div>
+            <div class="form-group row">
+              <label for="inputname" class="col-2 col-form-label">Name</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="inputname" name="inputname" placeholder="goods name"> </div>
+            </div>
+            <div class="form-group row"> <label for="inputprice" class="col-2 col-form-label">Price</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="inputprice" name="inputprice" placeholder="0"> </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="increaseConfirm">Confirm</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Update goods modal -->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="updateModalLabel">Update</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <form id="goods_update_form">
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="updatefile" class="col-2 col-form-label">photo</label>
+              <div class="col-10">
+                <input type="file" class="form-control-file" id="updatefile" accept="image/*"> </div>
+            </div>
+            <div class="form-group row">
+              <label for="updatename" class="col-2 col-form-label">Name</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="updatename" placeholder=""> </div>
+            </div>
+            <div class="form-group row"> <label for="updateprice" class="col-2 col-form-label">Price</label>
+              <div class="col-10">
+                <input type="text" class="form-control" id="updateprice" placeholder=""> </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" id="updateConfirm">Confirm</button>
+            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script src="js/goodsProvider.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/ethjs@0.3.4/dist/ethjs.min.js"></script>
+</body>
+
+</html>
