@@ -2,10 +2,10 @@ $(document).ready(function() {
     $("#register_form").submit(function(e) {
         var form = $(this);
         //var url = form.attr('action');
-        //alert(form.serialize());
+        // alert(form.serialize());
         $.ajax({
             type: "POST",
-            url: "http://140.113.207.54:7000/registering",
+            url: "http://127.0.0.1/registering",
             data: form.serialize(), // serializes the form's elements.
         });
 

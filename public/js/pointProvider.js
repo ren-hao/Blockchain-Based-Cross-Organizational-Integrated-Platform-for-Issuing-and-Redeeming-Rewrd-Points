@@ -1,13 +1,22 @@
 $(document).ready(function() {
-    var eth = new Eth(new Eth.HttpProvider('http://140.113.207.54:7545'));
-    //console.log(eth);
+    // var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    if (typeof web3 !== 'undefined' && window.ethereum) {
+        const ethereum = window.ethereum;
+        ethereum.enable();
+        var eth = new Eth(ethereum);
+    }
+    else {
+        console.log('please install metamask');
+        var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    }
+
     var abi;
     var instance;
     var identity;
     var username;
     var address;
     var pointsContract;
-    const system = '0x688c9c79017dCC57A33cDc26bbc6AA23d1cA3321';
+    const system = '0xD5Aa382468C895B78eD99718AeD1686dF9337a56';
     $.getJSON('Points.json', function(data) {
         abi = data.abi;
         console.log(document.cookie);
@@ -22,8 +31,9 @@ $(document).ready(function() {
         $("#greet").html(greet);
         address = document.cookie.split(';')[2];
         address = address.split('=')[1];
+        console.log("full: "+document.cookie)
         console.log(address);
-        pointsContract = eth.contract(abi).at('0xD63a358A39716F09E2e81D81762c14e6e7196f9F');
+        pointsContract = eth.contract(abi).at('0xC31EAEFF1192fc86522CC0bcEF1E13364Af0054d');
         var start = Date.now();
         var end;
         pointsContract.balanceOf(address).then(function(tokenBalance){
@@ -53,18 +63,20 @@ $(document).ready(function() {
             amount = Number(amount);
             //console.log(amount);
             //mint
-            pointsContract.mint(amount, {from: system})
+            pointsContract.mint(amount, {from: address})
             .then(function(txHash){
                 //deliver
-                console.log(amount);
+                console.log("amount: " + amount);
+                console.log("address: " + address);
+                console.log("result: " + txHash);
                 var start = Date.now();
                 var end;
-                pointsContract.deliver(address, amount, {from: system}).then(function(txHash){
+                pointsContract.deliver(address, amount, {from: address}).then(function(txHash){
                     end = Date.now();
                     console.log("spend:");
                     console.log(end-start);
                     pointsContract.balanceOf(address).then(function(tokenBalance){
-                        $("#pointNum").html(tokenBalance[0].toString(10));
+                        $("#pointNum").html(tokenBalance[0].toString());
                     });
                 });
             })
@@ -107,13 +119,13 @@ $(document).ready(function() {
                 console.log(user.isExisted);
                 if(user.isExisted){
                     //issue
-                    pointsContract.issue(address, user.address, amount, {from: system}).then(function(txHash){
+                    pointsContract.issue(address, user.address, amount, {from: address}).then(function(txHash){
                         $('#issue_confirm').attr('data-dismiss', 'modal');
                         pointsContract.balanceOf(address).then(function(tokenBalance){
-                            $("#pointNum").html(tokenBalance[0].toString(10));
+                            $("#pointNum").html(tokenBalance[0].toString());
                             $("#receiver").val('');
                             $("#issueAmount").val('');
-                            //$('#issue_confirm').attr('data-dismiss', 'modal');
+                            // $('#issue_confirm').attr('data-dismiss', 'modal');
                         });
                     });
                 }

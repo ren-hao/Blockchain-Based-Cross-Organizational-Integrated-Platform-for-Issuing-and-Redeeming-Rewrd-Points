@@ -1,5 +1,15 @@
 $(document).ready(function() {
-	var eth = new Eth(new Eth.HttpProvider('http://140.113.207.54:7545'));
+    // var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    if (typeof web3 !== 'undefined' && window.ethereum) {
+        const ethereum = window.ethereum;
+        ethereum.enable();
+        var eth = new Eth(ethereum);
+    }
+    else {
+        console.log('please install metamask');
+        var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    }
+
     var abi;
     var instance;
     var identity;
@@ -7,7 +17,7 @@ $(document).ready(function() {
     var address;
     var account;
     var pointsContract;
-    const system = '0x688c9c79017dCC57A33cDc26bbc6AA23d1cA3321';
+    const system = '0xd5aa382468c895b78ed99718aed1686df9337a56';
     $.getJSON('Points.json', function(data) {
         abi = data.abi;
         console.log(document.cookie);
@@ -23,7 +33,7 @@ $(document).ready(function() {
         address = document.cookie.split(';')[2];
         address = address.split('=')[1];
         console.log(address);
-        pointsContract = eth.contract(abi).at('0xD63a358A39716F09E2e81D81762c14e6e7196f9F');
+        pointsContract = eth.contract(abi).at('0xC31EAEFF1192fc86522CC0bcEF1E13364Af0054d');
         pointsContract.balanceOf(address).then(function(tokenBalance){
             $("#pointNum").html(tokenBalance[0].toString());
         });
@@ -67,7 +77,7 @@ $(document).ready(function() {
         var OwnerAddress = $(event.target).attr("goodsOwnerAddress");
         console.log(price);
         console.log(OwnerAddress);
-        pointsContract.redeem(address, OwnerAddress, price, {from: system}).then(function(txHash){
+        pointsContract.redeem(address, OwnerAddress, price, {from: address}).then(function(txHash){
         	pointsContract.balanceOf(address).then(function(tokenBalance){
 	            $("#pointNum").html(tokenBalance[0].toString());
 	        });

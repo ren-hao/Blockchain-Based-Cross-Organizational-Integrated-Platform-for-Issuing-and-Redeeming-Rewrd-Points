@@ -1,5 +1,15 @@
 $(document).ready(function() {
-    var eth = new Eth(new Eth.HttpProvider('http://140.113.207.54:7545'));
+    // var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    if (typeof web3 !== 'undefined' && window.ethereum) {
+        const ethereum = window.ethereum;
+        ethereum.enable();
+        var eth = new Eth(ethereum);
+    }
+    else {
+        console.log('please install metamask');
+        var eth = new Eth(new Eth.HttpProvider('http://127.0.0.1:7545'));
+    }
+
     var abi;
     var instance;
     var identity;
@@ -7,7 +17,7 @@ $(document).ready(function() {
     var address;
     var account;
     var pointsContract;
-    const system = '0x688c9c79017dCC57A33cDc26bbc6AA23d1cA3321';
+    const system = '0xd5aa382468c895b78ed99718aed1686df9337a56';
     account = document.cookie.split(';')[3];
     account = account.split('=')[1];
     console.log(account);
@@ -26,7 +36,7 @@ $(document).ready(function() {
         address = address.split('=')[1];
         console.log(address);
         
-        pointsContract = eth.contract(abi).at('0xD63a358A39716F09E2e81D81762c14e6e7196f9F');
+        pointsContract = eth.contract(abi).at('0xC31EAEFF1192fc86522CC0bcEF1E13364Af0054d');
         pointsContract.balanceOf(address).then(function(tokenBalance){
             $("#pointNum").html(tokenBalance[0].toString());
         });
@@ -77,7 +87,7 @@ $(document).ready(function() {
             //takeover
             if(receiver == "system"){
                 //console.log(receiver);
-                pointsContract.takeover(address, amount, {from: system}).then(function(txHash){
+                pointsContract.takeover(address, amount, {from: address}).then(function(txHash){
                     $('#sellConfirm').attr('data-dismiss', 'modal');
                     pointsContract.balanceOf(address).then(function(tokenBalance){
                         $("#pointNum").html(tokenBalance[0].toString(10));
@@ -107,7 +117,7 @@ $(document).ready(function() {
                     console.log(user.isExisted);
                     if(user.isExisted){
                         //issue
-                        pointsContract.transfer(address, user.address, amount, {from: system}).then(function(txHash){
+                        pointsContract.transfer(address, user.address, amount, {from: address}).then(function(txHash){
                             $('#sellConfirm').attr('data-dismiss', 'modal');
                             pointsContract.balanceOf(address).then(function(tokenBalance){
                                 $("#pointNum").html(tokenBalance[0].toString(10));

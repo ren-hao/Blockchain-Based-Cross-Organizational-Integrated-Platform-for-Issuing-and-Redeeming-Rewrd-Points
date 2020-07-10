@@ -9,12 +9,20 @@ var formidable = require('formidable');
 var fs = require('fs');
 var cookie = require('cookie');
 
-var system = "0x688c9c79017dCC57A33cDc26bbc6AA23d1cA3321";
+var system = "0xD5Aa382468C895B78eD99718AeD1686dF9337a56";
 
 let Database = require('./lib/database.js');
 users_database = new Database();
 goods_database = new Database();
 //var multer = require('multer');
+
+
+let GetContract = require('./lib/contract_bundle');
+var point_contract = GetContract('Points.json');
+
+point_contract.balanceOf(system).then(function(tokenBalance){
+	console.log("balance: " + tokenBalance[0].toString());
+});
 
 app.use(express.static('public')); //get the html, css and js
 app.use(bodyParser.json()); //
@@ -23,9 +31,15 @@ init();
 
 
 if (typeof web3 !== 'undefined') {
-    web3 = new Web3(web3.currentProvider);
+	web3 = new Web3(web3.currentProvider);
+	console.log("use current provider");
 } else {
-    web3 = new Web3(new Web3.providers.HttpProvider("http://140.113.207.54:7545"));
+	// web3 = new Web3(new Web3.providers.HttpProvider("http://140.113.207.54:7545"));
+	web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:7545"));
+	web3.eth.getAccounts().then(data => {
+		acc = data[0];
+		console.log("first account: " + acc);
+	});
 }
 
 async function init() {
@@ -57,40 +71,72 @@ app.post('/registering', function (req, res) {
 			err = true;
 		}
 		else{
-			var start = Date.now();
-			web3.eth.personal.newAccount('', (err, result) => {
-				var end = Date.now();
-				var spend = end - start;
-				console.log("spend: " + spend);
-				if (err) throw err;
-				users_data.address = result;
-				console.log(users_data);
-				console.log("Register OK!");
-				users_db.insert(users_data);
-				res.cookie("identity", users_data.identity);
-				res.cookie("username", users_data.username);
-				res.cookie("address", users_data.address);
-				res.cookie("account", users_data.account);
-				if(err){
-					res.redirect("/register.html");
-				}
-				else{
-					//check the identity to redirect to the pages
-					var identity = req.body.identity;
-					if(identity == 1){
-						res.redirect("/userpage.html");
-					}
-					else if(identity == 2){
-						res.redirect("/point-provider-page.html");
-					}
-					else if(identity == 3){
-						res.redirect("/goods-provider-page.html");
-					}
-					else{
-						res.redirect("/index.html");
+			point_contract.setIdentity(users_data.ethacc, users_data.identity, {from: system}).then(function(result){
+				if (result) {
+					console.log('success');
+					users_data.address = users_data.ethacc;
+					users_db.insert(users_data);
+					res.cookie("identity", users_data.identity);
+					res.cookie("username", users_data.username);
+					res.cookie("address", users_data.address);
+					res.cookie("account", users_data.account);
+
+					switch (Number(users_data.identity)) {
+						case 1:
+							res.redirect('/userpage.html');
+							break;
+						case 2:
+							res.redirect('/point-provider-page.html');
+							break;
+						case 3:
+							res.redirect('/goods-provider-page.html');
+							break;
+						default:
+							res.redirect("/index.html");
+							break;
 					}
 				}
-			});	
+				else {
+					console.log('fail');
+				}
+			}).catch(function(err){
+				console.log(err);
+			});
+
+			// var start = Date.now();
+			// web3.eth.personal.newAccount('', (err, result) => {
+			// 	var end = Date.now();
+			// 	var spend = end - start;
+			// 	console.log("spend: " + spend);
+			// 	if (err) throw err;
+			// 	users_data.address = result;
+			// 	console.log(users_data);
+			// 	console.log("Register OK!");
+			// 	users_db.insert(users_data);
+			// 	res.cookie("identity", users_data.identity);
+			// 	res.cookie("username", users_data.username);
+			// 	res.cookie("address", users_data.address);
+			// 	res.cookie("account", users_data.account);
+			// 	if(err){
+			// 		res.redirect("/register.html");
+			// 	}
+			// 	else{
+			// 		//check the identity to redirect to the pages
+			// 		var identity = req.body.identity;
+			// 		if(identity == 1){
+			// 			res.redirect("/userpage.html");
+			// 		}
+			// 		else if(identity == 2){
+			// 			res.redirect("/point-provider-page.html");
+			// 		}
+			// 		else if(identity == 3){
+			// 			res.redirect("/goods-provider-page.html");
+			// 		}
+			// 		else{
+			// 			res.redirect("/index.html");
+			// 		}
+			// 	}
+			// });	
 		}		
 	});			
 });

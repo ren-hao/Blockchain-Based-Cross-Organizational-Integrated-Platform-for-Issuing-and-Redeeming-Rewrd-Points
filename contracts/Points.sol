@@ -11,7 +11,7 @@ contract Points {
     uint8 public decimals = 18;
     mapping (address => uint256) private _quota; // the quota of every company
     mapping (address => uint256) private _balances; 
-    //mapping (address => uint256) private _identity; // the identity of the account, 1 for users, 2 for point company and 3 for goods company
+    mapping (address => uint256) private _identity; // the identity of the account, 1 for users, 2 for point company and 3 for goods company
     mapping (address => uint256) private _transactions; // the number of transactions a company do
     uint256 private _totalSupply;
     
@@ -23,6 +23,21 @@ contract Points {
     
     modifier onlyOwner() {
         require(msg.sender == owner, "Permission denied.");
+        _;
+    }
+    
+    modifier onlyMerchant() {
+        require(identityOf() == 3, "Permission denied.");
+        _;
+    }
+    
+    modifier onlyPointProvider() {
+        require(identityOf() == 2, "Permission denied.");
+        _;
+    }
+
+    modifier onlyUser() {
+        require(identityOf() == 1, "Permission denied.");
         _;
     }
     
@@ -38,9 +53,9 @@ contract Points {
         return _balances[who];
     }
     
-    /*function identityOf(address who) external view returns (uint256) {
-        return _identity[who];
-    }*/
+    function identityOf() public view returns (uint256) {
+        return _identity[msg.sender];
+    }
     
     function numberOf(address who) external view returns (uint256) {
         return _transactions[who];
@@ -58,7 +73,7 @@ contract Points {
     
     // when there is a company give real money to the system
     // system account will mint new points
-    function mint(uint256 value) external onlyOwner returns (bool){
+    function mint(uint256 value) external returns (bool){
         require(value > 0);
         _balances[owner] = _balances[owner].add(value);
         _totalSupply = _totalSupply.add(value);
@@ -67,7 +82,7 @@ contract Points {
     }
     
     // system -> company
-    function deliver(address to, uint256 value) external onlyOwner returns (bool){
+    function deliver(address to, uint256 value) external returns (bool){
         //require(_identity[to] == 2);
         require(value > 0);
         _transfer(owner, to, value);
@@ -77,17 +92,17 @@ contract Points {
     }
     
     // point provider -> user
-    function issue(address from, address to, uint256 value) external onlyOwner returns (bool){
+    function issue(address from, address to, uint256 value) external returns (bool){
         //require(_identity[from] == 2 && _identity[to] == 1);
         require(value > 0);
         _transfer(from, to, value);
-        _transactions[from] = _transactions[from] + 1;
+        _transactions[from] = _transactions[from].add(1);
         emit Issue(from, to, value);
         return true;
     }
     
     // goods provider -> point provider
-    function transfer(address from, address to, uint256 value) external onlyOwner returns (bool){
+    function transfer(address from, address to, uint256 value) external returns (bool){
         //require(_identity[from] == 3 && _identity[to] == 2);
         require(value > 0);
         _transfer(from, to, value);
@@ -96,7 +111,7 @@ contract Points {
     }
     
     // user --points--> goods provider
-    function redeem(address from, address to, uint256 value) external onlyOwner returns (bool){
+    function redeem(address from, address to, uint256 value) external returns (bool){
         //require(_identity[from] == 1 && _identity[to] == 3);
         require(value > 0);
         _transfer(from, to, value);
@@ -105,7 +120,7 @@ contract Points {
     }
     
     // company -> system
-    function takeover(address from, uint256 value) external onlyOwner returns (bool){
+    function takeover(address from, uint256 value) external returns (bool){
         //require(_identity[from] == 3);
         require(value > 0);
         _transfer(from, owner, value);
@@ -133,7 +148,7 @@ contract Points {
     }*/
     
     function _transfer(address from, address to, uint256 value) internal {
-        require(to != address(0));
+        // require(to != address(0));
         _balances[from] = _balances[from].sub(value);
         if(_quota[to] == 0) _balances[to] = _balances[to].add(value);
         else{
@@ -147,6 +162,11 @@ contract Points {
                 _balances[to] = _balances[to].add(value);
             }
         }        
+    }
+    
+    function setIdentity(address who, uint256 value) external onlyOwner returns(bool) {
+        _identity[who] = value;
+        return true;
     }
     
     //mint: system +
